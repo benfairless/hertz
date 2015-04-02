@@ -7,26 +7,26 @@ import subprocess
 # poll is the amount of seconds over which to aggregate data
 def collection(poll=10):
   try:
-    data = subprocess.check_output(['vmstat','-S','K','-nt',str(poll),'2']).split('\n')[2].split()
+    vmstat = subprocess.check_output(['vmstat','-S','K','-nt',str(poll),'2']).split('\n')[3].split()
     return {
-        'proc_run': int(data[0]),
-        'proc_blk': int(data[1]),
-        'mem_swpd': int(data[2]),
-        'mem_free': int(data[3]),
-        'mem_buff': int(data[4]),
-        'mem_cache': int(data[5]),
-        'swap_in': int(data[6]),
-        'swap_out': int(data[7]),
-        'blocks_in': int(data[8]),
-        'blocks_out': int(data[9]),
-        'cpu_int': int(data[10]),
-        'cpu_cs': int(data[11]),
-        'cpu_usr': int(data[12]),
-        'cpu_sys': int(data[13]),
-        'cpu_idle': int(data[14]),
-        'cpu_wait': int(data[15]),
-        'date': str(data[17]),
-        'time': str(data[18]),
+        'proc_run': int(vmstat[0]),
+        'proc_blk': int(vmstat[1]),
+        'mem_swpd': int(vmstat[2]),
+        'mem_free': int(vmstat[3]),
+        'mem_buff': int(vmstat[4]),
+        'mem_cache': int(vmstat[5]),
+        'swap_in': int(vmstat[6]),
+        'swap_out': int(vmstat[7]),
+        'blocks_in': int(vmstat[8]),
+        'blocks_out': int(vmstat[9]),
+        'cpu_int': int(vmstat[10]),
+        'cpu_cs': int(vmstat[11]),
+        'cpu_usr': int(vmstat[12]),
+        'cpu_sys': int(vmstat[13]),
+        'cpu_idle': int(vmstat[14]),
+        'cpu_wait': int(vmstat[15]),
+        'date': str(vmstat[17]),
+        'time': str(vmstat[18]),
         'poll_freq': poll,
       }
   except subprocess.CalledProcessError as e:
@@ -51,7 +51,8 @@ def tmpwrite():
 def main_loop():
   print "Starting monitoring..."
   while 1:
-    tmpwrite()
+    # tmpwrite()
+    print collection(5)
 
 if __name__ == '__main__':
   try:
@@ -59,6 +60,3 @@ if __name__ == '__main__':
   except KeyboardInterrupt:
     print >> sys.stderr, '\nExiting by user request.\n'
     sys.exit(0)
-
-#print collection(1)
-#tmpwrite()
