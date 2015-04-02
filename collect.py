@@ -9,6 +9,7 @@ def collection(poll=10):
   try:
     vmstat = subprocess.check_output(['vmstat','-S','K','-nt',str(poll),'2']).split('\n')[3].split()
     return {
+        'hostname': os.environ['HOSTNAME'],
         'proc_run': int(vmstat[0]),
         'proc_blk': int(vmstat[1]),
         'mem_swpd': int(vmstat[2]),
