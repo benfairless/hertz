@@ -1,9 +1,4 @@
 #!/usr/bin/env python
-from hertz.daemon import collection
-import ConfigParser
+from hertz.server import app
 
-config = ConfigParser.SafeConfigParser()
-config.read('hertzd.conf')
-_buffer = config.get('Agent','buffer')
-
-print collection.get(2)
+app.run(debug=True, host="0.0.0.0", port=5000)

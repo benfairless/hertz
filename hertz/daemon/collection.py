@@ -1,6 +1,12 @@
 import sys
 import os
 import subprocess
+import logging
+#
+# hertz/daemon/collection.py
+#
+# This submodule contains functions regarding the collection of monitoring data
+#
 
 # get() - Collect metrics from kernel via vmstat
 #
@@ -64,8 +70,11 @@ def buffered_get(time=60,aggregate=15):
   else:
     total = time / aggregate
 
+  # Collect data until we reach the total count
   count = 0
-  buff = []
+  data_buffer = []
   while count < total:
-    data.append(get(aggregate))
+    data_buffer.append(get(aggregate))
     count += 1
+
+  return data_buffer
